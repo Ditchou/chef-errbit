@@ -142,6 +142,13 @@ deploy_revision node['errbit']['deploy_to'] do
   enable_submodules false
   migrate false
   before_migrate do
+    directory "#{release_path}/vendor" do
+      owner node['errbit']['user']
+      group node['errbit']['group']
+      mode 00755
+      action :create
+      recursive true
+    end
     link "#{release_path}/vendor/bundle" do
       to "#{node['errbit']['deploy_to']}/shared/vendor_bundle"
     end
